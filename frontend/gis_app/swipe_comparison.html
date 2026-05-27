@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <meta name="app:location" content="Porters">
+    <meta name="app:month" content="June, July">
+    <meta name="app:year" content="2025">
+
+    <title>SnowAI | Swipe</title>
+    <link rel="icon" type="image/svg+xml" href="static/logo-black.svg">
+
+    <!-- Load the ArcGIS Maps SDK for JavaScript from CDN -->
+    <script type="module" src="https://js.arcgis.com/5.0/"></script>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body class="calcite-mode-dark">
+    <arcgis-map>
+      <arcgis-zoom slot="top-left"></arcgis-zoom>
+      <arcgis-swipe position="32"></arcgis-swipe>
+      <arcgis-expand slot="top-right">
+        <arcgis-layer-list></arcgis-layer-list>
+      </arcgis-expand>
+    </arcgis-map>
+
+    <script type="module">
+      const [Map, TileLayer, ImageryLayer, RasterStretchRenderer, FeatureLayer] = await $arcgis.import([
+        "@arcgis/core/Map.js",
+        "@arcgis/core/layers/TileLayer.js",
+        "@arcgis/core/layers/ImageryLayer",
+        "@arcgis/core/renderers/RasterStretchRenderer",
+        "@arcgis/core/layers/FeatureLayer",
+      ]);
+
+      const arcgisSwipe = document.querySelector("arcgis-swipe");
+      const viewElement = document.querySelector("arcgis-map");
+
+      const porters_202506_NDSI = new ImageryLayer({
+        url: "https://iservices-ap1.arcgis.com/BkFQfKGtBRbSiOQM/arcgis/rest/services/porters_202506_NDSI/ImageServer",
+        maxScale: 0,
+        title: "Porter 2025/06 snow",
+
+        opacity: 0.50,
+
+        renderer: new RasterStretchRenderer({
+          stretchType: "min-max",
+          colorRamp: {
+            type: "multipart",
+            colorRamps: [
+              {
+                fromColor: [0, 0, 0, 0],
+                toColor: [0, 200, 255, 255]
+              }
+            ]
+          }
+        })
+      });
+      const porters_202507_NDSI = new ImageryLayer({
+        url: "https://iservices-ap1.arcgis.com/BkFQfKGtBRbSiOQM/arcgis/rest/services/porters_202507_NDSI/ImageServer",
+        maxScale: 0,
+        title: "Porter 2025/07 snow",
+
+        opacity: 0.50,
+
+        renderer: new RasterStretchRenderer({
+          stretchType: "min-max",
+          colorRamp: {
+            type: "multipart",
+            colorRamps: [
+              {
+                fromColor: [0, 0, 0, 0],
+                toColor: [0, 255, 255, 255]
+              }
+            ]
+          }
+        })
+      });
+
+
+      // add porters Ski Boundary 
+      const skiBoundary = new FeatureLayer({
+        url: "https://services-ap1.arcgis.com/BkFQfKGtBRbSiOQM/arcgis/rest/services/porters/FeatureServer/0",
+        maxScale: 0,
+        title: "Ski Boundary",
+        opacity: 1,
+        renderer: {
+          type: "simple",
+          symbol: {
+            type: "simple-fill",
+            color: [0, 0, 0, 0],
+            outline: {
+              color: [255, 255, 0, 255],
+              width: 3,
+            },
+          },
+        },
+      });
+
+
+      // create the map with layers
+      viewElement.map = new Map({
+        basemap: "satellite",
+        layers: [porters_202506_NDSI, porters_202507_NDSI, skiBoundary],
+      });
+      // wait for swipe to be ready, then add the leading and trailing layers
+      arcgisSwipe.addEventListener("arcgisPropertyChange", (e) => {
+        if (e.detail.name === "state" && arcgisSwipe.state === "ready") {
+          arcgisSwipe.startLayers.add(porters_202506_NDSI);
+          arcgisSwipe.endLayers.add(porters_202507_NDSI);
+        }
+      });
+
+      await viewElement.viewOnReady();
+
+      const view = viewElement.view;
+
+      await skiBoundary.when();
+
+      if (skiBoundary.fullExtent) {
+        await view.goTo(
+          skiBoundary.fullExtent
+        );
+      }
+
+    </script>
+  </body>
+</html>

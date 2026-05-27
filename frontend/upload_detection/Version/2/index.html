@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Snow Detection</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-gray-100 p-6">
+
+<div class="max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow">
+
+  <h1 class="text-2xl font-bold mb-4">Snow Detection</h1>
+
+  <!-- Drag & Drop -->
+  <div id="dropZone"
+    class="border-2 border-dashed border-gray-300 p-10 text-center rounded-lg cursor-pointer">
+    Drag & Drop TIFF here or click
+    <input type="file" id="fileInput" accept=".tif" class="hidden" />
+  </div>
+
+  <!-- Progress -->
+  <div class="w-full bg-gray-200 rounded mt-4">
+    <div id="progressBar" class="bg-blue-500 text-xs text-white text-center p-1 rounded"
+      style="width:0%">0%</div>
+  </div>
+
+  <!-- Upload Button -->
+  <button id="uploadBtn"
+    class="mt-4 bg-gradient-to-r from-[#327AAA] to-[#9DD0F0]
+          text-white px-4 py-2 rounded-lg
+          hover:opacity-85 transition">
+    Upload & Predict
+  </button>
+
+
+  <p id="status" class="mt-2 text-sm text-gray-600"></p>
+
+  <!-- Result Image -->
+  <img id="resultImage" class="mt-4 max-w-full"/>
+
+  <!-- Stats -->
+  <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+    <div>
+      <p class="text-gray-500">Total Area</p>
+      <p id="totalArea" class="text-xl font-bold">-</p>
+    </div>
+    <div>
+      <p class="text-gray-500">Snow Area</p>
+      <p id="snowArea" class="text-xl font-bold">-</p>
+    </div>
+    <div>
+      <p class="text-gray-500">Percentage</p>
+      <p id="percentage" class="text-xl font-bold">-</p>
+    </div>
+  </div>
+
+  <!-- Donut Chart -->
+  <canvas id="chart" class="mt-6"></canvas>
+
+  <!-- GIS Buttons -->
+  <div class="mt-6 grid grid-cols-2 gap-4">
+
+    <a href="../gis_app/snow_change_analysis.html"
+      class="bg-green-500 text-white p-3 rounded text-center hover:bg-green-600">
+      Snow Change Analysis
+    </a>
+
+    <a href="../gis_app/swipe_comparison.html"
+      class="bg-green-500 text-white p-3 rounded text-center hover:bg-green-600">
+      Swipe Comparison
+    </a>
+
+    <a href="../gis_app/terrain_analysis.html"
+      class="bg-green-500 text-white p-3 rounded text-center hover:bg-green-600">
+      Terrain Analysis
+    </a>
+
+    <a href="../gis_app/time_slider.html"
+      class="bg-green-500 text-white p-3 rounded text-center hover:bg-green-600">
+      Time Slider
+    </a>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

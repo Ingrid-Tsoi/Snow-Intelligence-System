@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Snow Detection</title>
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#327AAA] to-[#9DD0F0] p-4">
+
+<!-- 主卡片（放大 + 自訂顏色） -->
+<div class="w-full max-w-6x1 mx-auto bg-[#FDFDFD] p-6 rounded-3xl shadow-2xl">
+
+  <!-- LOGO + TITLE（置中 + 放大） -->
+  <div class="flex flex-col items-center mb-4">
+    <img src="static/logo.png" class="h-[150px]">
+    
+    
+    <h1 class="text-4xl font-extrabold
+      bg-gradient-to-r from-[#327AAA] to-[#9DD0F0]
+      bg-clip-text text-transparent text-center">
+      Snow Detection
+    </h1>
+  </div>
+
+  <!-- Drop Zone -->
+  <div id="dropZone"
+    class="border-2 border-dashed border-gray-300
+           bg-gray-50 p-12 text-center
+           rounded-2xl cursor-pointer
+           hover:bg-gray-100 transition">
+    <p class="text-lg">📂 Drag & Drop TIFF here</p>
+    <input type="file" id="fileInput" accept=".tif" class="hidden" />
+  </div>
+
+
+  <!-- Upload -->
+  <button id="uploadBtn"
+    class="mt-4 w-full
+           bg-gradient-to-r from-[#327AAA] to-[#9DD0F0]
+           text-white py-3 rounded-xl font-semibold
+           hover:scale-99 transition">
+    Upload & Predict
+  </button>
+
+  <p id="status" class="mt-2 text-sm text-gray-600"></p>
+
+  <!--  圖片卡片 -->
+  <div class="mt-6 rounded-2xl overflow-hidden shadow-lg bg-white flex justify-center items-center">
+
+    <img id="resultImage"
+      class="max-w-full max-h-[500px] rounded-2xl object-contain" />
+
+  </div>
+
+
+  <!-- KPI -->
+  <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+
+    <div class="bg-white p-4 rounded-xl shadow">
+      <p class="text-gray-500">Total Area</p>
+      <p id="totalArea" class="text-xl font-bold">-</p>
+    </div>
+
+    <div class="bg-white p-4 rounded-xl shadow">
+      <p class="text-gray-500">Snow Area</p>
+      <p id="snowArea" class="text-xl font-bold">-</p>
+    </div>
+
+    <div class="bg-white p-4 rounded-xl shadow">
+      <p class="text-gray-500">Percentage</p>
+      <p id="percentage" class="text-xl font-bold">-</p>
+    </div>
+
+  </div>
+
+  <!-- Chart -->
+  <canvas id="chart" class="mt-6 mx-auto" style="max-width:250px;"></canvas>
+
+
+    <!-- GIS Buttons -->
+  <div class="mt-6 grid grid-cols-2 gap-4">
+
+    <a href="../gis_app/snow_change_analysis.html"
+      class="bg-[#2b6b94] text-white p-3 rounded text-center hover:bg-[#327AAA]"> 
+      Snow Change Analysis
+    </a>
+
+    <a href="../gis_app/swipe_comparison.html"
+      class="bg-[#327AAA] text-white p-3 rounded text-center hover:bg-[#2b6b94]">
+      Swipe Comparison
+    </a>
+
+    <a href="../gis_app/terrain_analysis.html"
+      class="bg-[#9DD0F0] text-white p-3 rounded text-center hover:bg-[#2b6b94]">
+      Terrain Analysis
+    </a>
+
+    <a href="../gis_app/time_slider.html"
+      class="bg-[#9DD0F0] text-white p-3 rounded text-center hover:bg-[#2b6b94]">
+      Time Slider
+    </a>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

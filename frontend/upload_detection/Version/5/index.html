@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Snow Detection</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="styles.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<!-- ================= PAGE 1 ================= -->
+<div id="page1" class="hero">
+
+  <!-- LEFT TEXT -->
+  <div class="left-panel">
+    <h1>Snow Detection</h1>
+    <p>Upload satellite TIFF and analyze results</p>
+    <p id="status"></p>
+  </div>
+
+  <!-- RIGHT CONTROLS -->
+  <div class="right-panel">
+
+    <input type="file" id="fileInput" hidden accept=".tif">
+
+    <div class="button-group">
+      <button id="uploadBtn" class="btn light">Upload</button>
+      <button id="predictBtn" class="btn dark" disabled>Predict</button>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ================= PAGE 2 ================= -->
+<div id="page2" class="result-page hidden">
+
+  <div class="result-container">
+
+    <h2>Analysis Result</h2>
+
+    <img id="resultImage" class="result-img"/>
+
+    <div id="stats" class="stats"></div>
+
+    <canvas id="chart"></canvas>
+
+    <button id="backBtn" class="btn light mt">Back</button>
+
+  </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>

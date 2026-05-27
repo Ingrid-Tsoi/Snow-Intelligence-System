@@ -1,0 +1,125 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;  
+  color: white;
+}
+
+/* HERO BACKGROUND */
+.hero {
+  height: 100vh;
+  background: url("snow_mountain.jpeg") center/cover no-repeat;
+  position: relative;
+}
+
+/* DARK OVERLAY */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* KEEP CONTENT ABOVE OVERLAY */
+.hero .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* LEFT */
+.left-panel {
+  position: absolute;
+  left: 130px;
+  top: 48%;
+  transform: translateY(-50%);
+  max-width: 400px;
+}
+
+.left-panel h1 {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.left-panel p {
+  opacity: 0.7;
+}
+
+/* RIGHT */
+.right-panel {
+  position: absolute;
+  right: 130px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* BUTTON GROUP */
+.button-group {
+  display: flex;
+  gap: 16px;
+}
+
+/* BUTTON STYLE */
+.btn {
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn.light {
+  background: rgba(255,255,255,0.8);
+  color: black;
+}
+
+.btn.dark {
+  background: #1f1f1f;
+  color: white;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* RESULT PAGE */
+.result-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.result-container {
+  text-align: center;
+  animation: fadeIn 0.8s ease;
+}
+
+.result-img {
+  max-width: 500px;
+  margin: 20px 0;
+  border-radius: 10px;
+}
+
+.stats {
+  margin: 15px 0;
+  line-height: 1.6;
+}
+
+.mt {
+  margin-top: 20px;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}

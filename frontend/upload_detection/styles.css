@@ -1,0 +1,320 @@
+/* ================= BASE ================= */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;  
+  color: white;
+}
+
+.logo {
+  width: 70px;
+  height: auto;
+  cursor: pointer;
+}
+
+/* ================= NAV ================= */
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  color: white;
+
+  transition: 
+  background 1.5s ease,
+  color 1.5s ease,
+  box-shadow 1.5s ease;
+}
+
+/*  共用 layout */
+.navbar,
+.mega-menu {
+  display: grid;
+  grid-template-columns: 100px repeat(4, 165px);
+  column-gap: 1px;
+  margin: 0 auto;
+  justify-content: center; 
+  width: 100%;
+  max-width: none;
+  margin: 0; 
+
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  align-items: center;
+  padding-top: 35px;
+  padding-bottom: 3px;
+
+  display: flex;
+  justify-content: space-between;
+  
+  max-width: 840px;
+  margin: 0 auto;  
+}
+
+
+.nav-item {
+  
+  padding-left: 0px;
+  font-weight: 550;
+}
+
+/* OPEN STATE */
+.nav.open {
+  background: white;
+  color: black;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.nav.open .nav-item {
+  color: black;
+}
+
+/* =========== Page2 NAVBAR =========== */
+
+body.page2 .nav {
+  background: white;
+  color: black;
+}
+
+body.page2 .nav .nav-item {
+  color: black;
+}
+
+body.page2 #logo {
+  content: url("static/logo-black.svg");
+}
+
+/* ================= MEGA MENU ================= */
+.mega-menu {
+  padding-top: 0px;
+  padding-bottom: 20px;
+  gap: 10px;
+  background: white;
+  color: white  ;
+
+  /* 關閉狀態 */
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transform: translateY(-10px);
+  pointer-events: none;
+
+  transition: 
+    color 0.3s ease-in,
+    opacity 1s ease,
+    max-height 1s ease,
+    transform 1s ease;
+} 
+
+/* SHOW 狀態 */
+.nav.open .mega-menu {
+  opacity: 1;
+  max-height: 300px;
+  transform: translateY(0);
+  pointer-events: auto;
+  color: black;
+
+  transition: 
+    opacity 1s ease,
+    max-height 1s ease,
+    transform 1s ease;
+}
+
+
+/* COLUMN */
+.mega-column {
+  text-align: left;
+}
+
+.mega-column p {
+  margin: 6px 0;
+  cursor: pointer;
+}
+
+.col-1 {
+  padding-left: 1px;
+}
+
+.col-2 {
+  padding-left: 9px;
+}
+
+.col-3 {
+  transform: translateX(-20px);
+}
+
+.col-4 {
+  padding-left: 9px;
+}
+
+/* ================= HERO ================= */
+.hero {
+  height: 100vh;
+  background: url("static/snow_mountain.jpeg") center/cover no-repeat;
+  position: relative;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+/* LEFT PANEL */
+.left-panel {
+  position: absolute;
+  left: 130px;
+  top: 48%;
+  transform: translateY(-50%);
+  max-width: 400px;
+  z-index: 2;
+}
+
+.left-panel h1 {
+  font-size: 52px;
+  margin-bottom: 10px;
+}
+
+.left-panel p {
+  opacity: 0.7;
+  font-size: 17px;
+}
+
+/* RIGHT PANEL */
+.right-panel {
+  position: absolute;
+  right: 130px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+/* ================= BUTTON ================= */
+.button-group {
+  display: flex;
+  gap: 20px;
+  
+}
+
+.btn {
+  padding: 14px 33px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.btn.light {
+  background: rgba(255,255,255,0.8);
+  color: black;
+}
+
+.btn.dark {
+  background: #1f1f1f;
+  color: white;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* ================= RESULT ================= */
+canvas {
+  width: 300px !important;
+  height: 300px !important;
+  margin-bottom: 20px;
+}
+
+.result-page {
+  min-height: calc(100vh - 100px);
+  display: block;
+  padding-top: 200px;
+  padding-bottom: 40px;
+  box-sizing: border-box;
+
+}
+
+.result-layout {
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  max-width: 1000px;
+  margin: 0px auto;
+}
+
+.card {
+  padding: 30px;
+  border-radius: 20px;
+}
+
+.card.dark {
+  background: black;
+
+}
+
+.card.light {
+  background: #f5f5f5;
+  color: black;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.hidden {
+  display: none;
+}
+
+.result-container {
+  text-align: center;
+  animation: fadeIn 0.8s ease;
+}
+
+.result-img {
+  max-width: 500px;
+  margin: 20px 0;
+  border-radius: 10px;
+}
+
+.stats {
+  margin-top: auto;
+  margin-bottom: auto;
+  line-height: 1.2;   /* 收窄 */
+  font-weight: 600;   /* bold */
+}
+
+.stats p {
+  margin: 6px 0;      /* 再收緊 */
+}
+
+.mt {
+  margin-top: 20px;
+}
+
+.image-card {
+  position: relative;
+}
+
+.map-label {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-weight: 600;
+}
+
+/* ================= ANIMATION ================= */
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
