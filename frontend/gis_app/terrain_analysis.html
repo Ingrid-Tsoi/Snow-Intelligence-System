@@ -8,6 +8,10 @@
     <meta name="app:year" content="2025">
     <title>SnowAI | Terrain</title>
     <link rel="icon" type="image/svg+xml" href="static/logo-black.svg">
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 8ae61f715864077fcc59e4c82dfd05d660786c6f
 
     <!-- Load the ArcGIS Maps SDK for JavaScript from CDN -->
     <script type="module" src="https://js.arcgis.com/5.0/"></script>
@@ -64,12 +68,19 @@
 
   <body class="calcite-mode-dark">
     <arcgis-scene item-id="0e8758e1d30647fab11de6962f0102d1">
+<<<<<<< HEAD
+=======
+      <arcgis-expand slot="top-right">
+        <arcgis-weather></arcgis-weather>
+      </arcgis-expand>
+>>>>>>> 8ae61f715864077fcc59e4c82dfd05d660786c6f
       <arcgis-zoom slot="top-left"></arcgis-zoom>
       <arcgis-navigation-toggle slot="top-left"></arcgis-navigation-toggle>
       <arcgis-compass slot="top-left"></arcgis-compass>
       <arcgis-expand slot="top-left">
         <arcgis-legend></arcgis-legend>
       </arcgis-expand>
+<<<<<<< HEAD
       <arcgis-basemap-toggle slot="bottom-left"></arcgis-basemap-toggle>
       <div id="terrainAnalysisDiv" slot="top-right">
         <calcite-segmented-control id="analysisModeSegmentedControl">
@@ -83,6 +94,23 @@
             >Slope</calcite-segmented-control-item
           >
         </calcite-segmented-control>
+=======
+
+
+      <div id="terrainAnalysisDiv" slot="bottom-right">
+        <calcite-segmented-control id="analysisModeSegmentedControl">
+          <calcite-segmented-control-item icon-start="surface" value="Custom" checked>
+            Custom
+          </calcite-segmented-control-item>
+          <calcite-segmented-control-item icon-start="altitude" value="Elevation">
+            Elevation
+          </calcite-segmented-control-item>
+          <calcite-segmented-control-item icon-start="take-pedestrian-ramp" value="Slope">
+            Slope
+          </calcite-segmented-control-item>
+        </calcite-segmented-control>
+
+>>>>>>> 8ae61f715864077fcc59e4c82dfd05d660786c6f
         <br />
         <calcite-label scale="s">
           Transparency | %
@@ -145,9 +173,13 @@
                 <text x="30" y="-30" text-anchor="middle">NE</text>
 
                 <!-- East -->
+<<<<<<< HEAD
                 <polygon points="40,0 15,5 15,-5" 
                 data-aspect="e" 
                 class="roseDirection active"></polygon>
+=======
+                <polygon points="40,0 15,5 15,-5" data-aspect="e" class="roseDirection active"></polygon>
+>>>>>>> 8ae61f715864077fcc59e4c82dfd05d660786c6f
                 <text x="45" y="2" text-anchor="middle">E</text>
 
                 <!-- South-East -->
@@ -203,7 +235,11 @@
         "@arcgis/core/layers/support/RasterFunction.js",
         "@arcgis/core/layers/support/rasterFunctionUtils.js",
         "@arcgis/core/layers/ImageryTileLayer.js",
+<<<<<<< HEAD
       ]);
+=======
+      ]);   
+>>>>>>> 8ae61f715864077fcc59e4c82dfd05d660786c6f
 
       const customAnalysisParams = {
         elevation: { min: 0, max: 2500 },
@@ -357,7 +393,11 @@
         analysisLayer.rasterFunction = createCustomAnalysis(customColor);
       });
 
+<<<<<<< HEAD
       const roseDirections = document.getElementsByClassName("roseDirection active");
+=======
+      const roseDirections = document.getElementsByClassName("roseDirection");
+>>>>>>> 8ae61f715864077fcc59e4c82dfd05d660786c6f
       for (const roseDirection of roseDirections) {
         roseDirection.addEventListener("click", () => {
           const active = roseDirection.classList.toggle("active");
@@ -418,7 +458,11 @@
         url: "https://iservices-ap1.arcgis.com/BkFQfKGtBRbSiOQM/arcgis/rest/services/porters_202506_NDSI/ImageServer",
         title: "Porter_202506_snow",
         rasterFunction: createCustomAnalysis(customColor),
+<<<<<<< HEAD
         opacity: 0.85,
+=======
+        opacity: 0.85 ,
+>>>>>>> 8ae61f715864077fcc59e4c82dfd05d660786c6f
       });
 
       // Access Basemap Toggle component
