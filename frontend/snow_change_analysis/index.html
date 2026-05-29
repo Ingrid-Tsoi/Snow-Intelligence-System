@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SnowAI | Analysis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="static/logo-black.svg">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="page2">
+  <header class="nav">
+    <div class="navbar">
+      <a class="brand" href="../upload_detection/index.html" aria-label="Snow Intelligence home">
+        <img id="logo" src="static/logo-black.svg" class="logo" alt="Logo">
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a class="nav-item" href="../gis_app/terrain_analysis.html">Terrain Analysis</a>
+        <a class="nav-item" href="../gis_app/time_slider.html">Time Slider</a>
+        <a class="nav-item" href="../gis_app/swipe_comparison.html">Swipe Comparison</a>
+        <a class="nav-item active" href="./index.html">Snow Change Analysis</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="hero-card">
+      <div class="hero-copy">
+        <p class="eyebrow">Data Analysis</p>
+        <h1>Snow Change Analysis</h1>
+        <p class="subtitle">
+          Compare two monthly raster layers inside the Porters polygon, then visualize snow gain and loss in km².
+        </p>
+
+        <div class="hero-badges">
+          <span>Polygon-based</span>
+          <span>Blue = gain</span>
+          <span>Red = loss</span>
+          <span>Clipped preview</span>
+        </div>
+      </div>
+
+      <div class="hero-meta">
+        <div class="status-pill" id="statusPill">Ready</div>
+      </div>
+    </section>
+
+    <section class="control-grid">
+      <article class="panel panel-controls">
+        <div class="panel-header">
+          <h2>Compare months</h2>
+          <span class="muted">Backend endpoint: /compare</span>
+        </div>
+
+        <div class="form-grid">
+          <label class="field">
+            <span>Left month</span>
+            <select id="leftMonth">
+              <option value="202504">2025-04</option>
+              <option value="202505">2025-05</option>
+              <option value="202506">2025-06</option>
+              <option value="202507">2025-07</option>
+              <option value="202508">2025-08</option>
+              <option value="202509">2025-09</option>
+              <option value="202510">2025-10</option>
+              <option value="202511">2025-11</option>
+              <option value="202512">2025-12</option>
+              <option value="202601">2026-01</option>
+              <option value="202602">2026-02</option>
+              <option value="202603">2026-03</option>
+              <option value="202604">2026-04</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Right month</span>
+            <select id="rightMonth">
+              <option value="202504">2025-04</option>
+              <option value="202505">2025-05</option>
+              <option value="202506">2025-06</option>
+              <option value="202507">2025-07</option>
+              <option value="202508">2025-08</option>
+              <option value="202509">2025-09</option>
+              <option value="202510">2025-10</option>
+              <option value="202511">2025-11</option>
+              <option value="202512">2025-12</option>
+              <option value="202601">2026-01</option>
+              <option value="202602">2026-02</option>
+              <option value="202603">2026-03</option>
+              <option value="202604">2026-04</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button id="compareBtn" class="primary-btn" type="button">Compare</button>
+          <button id="swapBtn" class="secondary-btn" type="button">Swap months</button>
+        </div>
+      </article>
+
+      <article class="panel panel-metrics">
+        <div class="panel-header">
+          <h2>Metrics</h2>
+          <span class="muted">Computed inside polygon</span>
+        </div>
+
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span class="metric-label">Left snow area</span>
+            <strong id="leftArea">—</strong>
+            <small id="leftRatio">—</small>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Right snow area</span>
+            <strong id="rightArea">—</strong>
+            <small id="rightRatio">—</small>
+          </div>
+          <div class="metric-card gain">
+            <span class="metric-label">Gain</span>
+            <strong id="gainArea">—</strong>
+            <small id="gainPixels">—</small>
+          </div>
+          <div class="metric-card loss">
+            <span class="metric-label">Loss</span>
+            <strong id="lossArea">—</strong>
+            <small id="lossPixels">—</small>
+          </div>
+          <div class="metric-card net">
+            <span class="metric-label">Net change</span>
+            <strong id="netArea">—</strong>
+            <small id="netNote">—</small>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Coverage change</span>
+            <strong id="coverageDelta">—</strong>
+            <small id="coverageNote">—</small>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel panel-preview">
+        <div class="panel-header">
+          <h2>Change preview</h2>
+          <span class="muted">Polygon-clipped diff raster</span>
+        </div>
+
+        <div class="legend">
+          <span><i class="dot blue"></i> Gain</span>
+          <span><i class="dot red"></i> Loss</span>
+          <span><i class="dot gray"></i> No change</span>
+        </div>
+
+        <div class="preview-stage">
+          <img id="diffImage" alt="Change preview">
+          <div id="previewPlaceholder" class="placeholder">
+            <div class="placeholder-icon">Δ</div>
+            <p>Run a comparison to preview the polygon-only change layer.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

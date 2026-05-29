@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Snow Detection</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Your CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div class="hero-section d-flex align-items-center">
+
+  <div class="container">
+    <div class="row align-items-center">
+
+      <!-- LEFT CONTENT -->
+      <div class="col-md-6 text-white">
+        <h1 class="display-4">Snow Detection</h1>
+        <p class="lead">Upload satellite TIFF and analyze results</p>
+
+        <p id="status"></p>
+      </div>
+
+      <!-- RIGHT SIDE (UPLOAD) -->
+      <div class="col-md-6 text-end">
+
+        <input type="file" id="fileInput" class="form-control mb-3" accept=".tif">
+
+        <button id="uploadBtn" class="btn btn-primary px-4">
+          Upload & Predict
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- RESULT -->
+    <div class="row mt-4">
+      <div class="col text-center">
+        <img id="resultImage" class="img-fluid rounded shadow" />
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* buttons (統一風格) */
+.btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border-radius: 12px;
+  color: white;
+  font-weight: 600;
+  background: linear-gradient(to right, #327AAA, #9DD0F0);
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* image */
+#resultImage {
+  max-width: 500px;
+  margin-top: 10px;
+  display: block;
+}
+

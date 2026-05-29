@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SnowAI</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="styles.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="icon" type="image/svg+xml" href="static/logo-black.svg">
+
+
+</head>
+
+<body>
+  
+
+<!-- ================= NAVBAR ================= -->
+<header class="nav">
+
+<div class="navbar">
+
+<img id="logo" src="static/logo-white.svg" class="logo" alt="Logo">    
+
+<div class="nav-item">Terrain Analysis</div>
+<div class="nav-item">Time Slider</div>
+<div class="nav-item">Swipe Comparison</div>
+<div class="nav-item">Snow Change Analysis</div>
+</div>
+
+  <!-- ONE SINGLE MEGA MENU -->
+  <div class="mega-menu">
+
+     <div></div> <!-- 空位對齊 logo -->
+
+    <div class="mega-column col-1">      
+      <p>Mount Hutt</p>
+      <p class="menu-link" data-page="terrain">Porters</p>
+    </div>
+
+    <div class="mega-column col-2">  
+      <p>Mount Hutt</p>
+      <p class="menu-link" data-page="time">Porters</p>
+    </div>
+
+    <div class="mega-column col-3">
+      <p>Mount Hutt</p>
+      <p class="menu-link" data-page="swipe">Porters</p>
+    </div>
+
+    <div class="mega-column col-4">
+      <p>Mount Hutt</p>
+      <p class="menu-link" data-page="analysis">Porters</p>
+    </div>
+
+  </div>
+
+</header>
+
+<!-- ================= PAGE 1 ================= -->
+<section id="page1" class="hero ">
+
+  <!-- LEFT TEXT -->
+  <div class="left-panel">
+    <h1>Snow Detection</h1>
+    <p>Upload satellite TIFF and analyze results</p>
+    <p id="status"></p>
+  </div>
+
+  <!-- RIGHT CONTROLS -->
+  <div class="right-panel">
+
+    <input type="file" id="fileInput" hidden accept=".tif">
+
+    <div class="button-group">
+      <button id="uploadBtn" class="btn light">Upload</button>
+      <button id="predictBtn" class="btn dark" disabled>Predict</button>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ================= PAGE 2 ================= -->
+<section id="page2" class="result-page hidden">
+
+  <div class="result-layout">
+
+    <!-- LEFT IMAGE -->
+    <div class="card dark image-card">
+      <img id="resultImage" class="result-img">
+      <p class="map-label">Snow Coverage Map</p>
+    </div>
+
+    <!-- CHART -->
+    <div class="card light">
+      <canvas id="chart"></canvas>
+
+      <div class="stats">
+        <p id="snow"></p>
+        <p id="nonSnow"></p>
+        <p id="total"></p>
+        <p id="percent"></p>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<script src="script.js"></script>
+
+</body>
+</html>

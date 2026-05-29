@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>SnowAI | Time</title>
+    <link rel="icon" type="image/svg+xml" href="static/logo-black.svg">
+
+    <script type="module" src="https://js.arcgis.com/5.0/"></script>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      #temporal-filter {
+        width: 300px;
+        overflow: hidden;
+      }
+
+      arcgis-time-slider {
+        position: absolute;
+        left: 5%;
+        right: 5%;
+        bottom: 20px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <arcgis-scene item-id="ae417bd8a1c64caa99b168aa1bba04c0">
+      <arcgis-zoom slot="top-left"></arcgis-zoom>
+      <arcgis-navigation-toggle slot="top-left"></arcgis-navigation-toggle>
+      <arcgis-compass slot="top-left"></arcgis-compass>
+      <arcgis-legend slot="top-right" legend-style="classic"></arcgis-legend>
+
+      <arcgis-time-slider mode="instant"></arcgis-time-slider>
+
+      <calcite-card id="temporal-filter" slot="top-right">
+        <span id="time-period" slot="description">no time filter</span>
+        <calcite-label slot="heading" layout="inline">
+          <calcite-switch id="temporal-filter-switch" checked></calcite-switch>
+          Temporal filter
+        </calcite-label>
+      </calcite-card>
+    </arcgis-scene>
+
+    <script type="module">
+      const [TimeExtent, TimeInterval, reactiveUtils, ImageryLayer, colorRamps, FeatureLayer] = await $arcgis.import([
+        "@arcgis/core/time/TimeExtent.js",
+        "@arcgis/core/time/TimeInterval.js",
+        "@arcgis/core/core/reactiveUtils.js",
+        "@arcgis/core/layers/ImageryLayer.js",
+        "@arcgis/core/smartMapping/raster/support/colorRamps.js",
+        "@arcgis/core/layers/FeatureLayer",
+      ])
+
+
+      const elevationRampDef = colorRamps.byName("Elevation #1");
+      const elevationRamp = colorRamps.createColorRamp({
+        colors: elevationRampDef?.colors //「如果前面唔係 null / undefined，先繼續攞 .colors」
+      });
+
+      const viewElement = document.querySelector("arcgis-scene");
+      const timeSlider = document.querySelector("arcgis-time-slider");
+      const timeLabel = document.getElementById("time-period");
+      const timeSwitch = document.getElementById("temporal-filter-switch");
+      
+      const serviceBase = "https://iservices-ap1.arcgis.com/BkFQfKGtBRbSiOQM/arcgis/rest/services";
+
+      const months = [
+        "202504",
+        "202505",
+        "202506",
+        "202507",
+        "202508",
+        "202509",
+        "202510",
+        "202511",
+        "202512",
+        "202601",
+        "202602",
+        "202603",
+        "202604",
+      ];
+
+      const ndsiLayers = {};
+
+      // add porters Ski Boundary 
+      const skiBoundary = new FeatureLayer({
+        url: "https://services-ap1.arcgis.com/BkFQfKGtBRbSiOQM/arcgis/rest/services/porters/FeatureServer/0",
+        maxScale: 0,
+        title: "Ski Boundary",
+        opacity: 1,
+        elevationInfo: {
+          mode: "on-the-ground"
+        },
+        renderer: {
+          type: "simple",
+          symbol: {
+            type: "simple-fill",
+            color: [0, 0, 0, 0],
+            outline: {
+              color: [255, 255, 0, 255],
+              width: 3,
+            },
+          },
+        },
+      });
+
+
+      for (const ym of months) {
+        ndsiLayers[ym] = new ImageryLayer({
+          url: `${serviceBase}/porters_${ym}_NDSI/ImageServer`,
+          visible: false,
+          opacity: 0.75,
+          title: `Porters Snow ${ym}`,
+
+          renderer: {
+            type: "raster-stretch",
+            stretchType: "min-max",
+            colorRamp: elevationRamp
+          }
+        });
+      }
+
+      await viewElement.viewOnReady();
+
+      for (const layer of Object.values(ndsiLayers)) {
+        viewElement.map.add(layer);
+      }
+
+      viewElement.map.add(skiBoundary);
+
+      timeSlider.fullTimeExtent = new TimeExtent({
+        start: new Date("2025-04-01"),
+        end: new Date("2026-04-01"),
+      });
+
+      timeSlider.timeExtent = new TimeExtent({
+        start: new Date("2025-04-01"),
+        end: new Date("2025-04-01"),
+      });
+
+      timeSlider.stops = {
+        interval: new TimeInterval({
+          value: 1,
+          unit: "months",
+        }),
+      };
+
+      await timeSlider.componentOnReady();
+
+      function hideAllLayers() {
+        for (const layer of Object.values(ndsiLayers)) {
+          layer.visible = false;
+        }
+      }
+
+      function showMonthLayer(ym) {
+        hideAllLayers();
+
+        if (ndsiLayers[ym]) {
+          ndsiLayers[ym].visible = true;
+          timeLabel.textContent = ym;
+        } else {
+          timeLabel.textContent = "No matching layer";
+        }
+      }
+
+      reactiveUtils.watch(
+        () => timeSlider.timeExtent,
+        (timeExtent) => {
+          if (!timeExtent?.start) return;
+
+          const d = timeExtent.start;
+          const ym =
+            d.getFullYear().toString() +
+            String(d.getMonth() + 1).padStart(2, "0");
+
+          showMonthLayer(ym);
+        },
+        { initial: true }
+      );
+
+      timeSwitch.addEventListener("calciteSwitchChange", (event) => {
+        timeSlider.disabled = !event.target.checked;
+
+        if (event.target.checked) {
+          showMonthLayer("202504");
+          timeSlider.timeExtent = new TimeExtent({
+            start: new Date("2025-04-01"),
+            end: new Date("2025-04-01"),
+          });
+        } else {
+          hideAllLayers();
+          timeLabel.textContent = "no time filter";
+        }
+      });
+    </script>
+  </body>
+</html>
