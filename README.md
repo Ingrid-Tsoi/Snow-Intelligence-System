@@ -1,109 +1,52 @@
 # Snow Intelligence System
 
-## Overview
+An end-to-end machine learning system for detecting, visualising, and analysing snow coverage from satellite imagery.
 
-Snow Intelligence System is an end-to-end machine learning platform for detecting and analysing snow coverage from satellite imagery.
+The system combines a U-Net–based snow segmentation model, a FastAPI backend, and web-based geospatial visualisation tools.
 
-The system integrates deep learning–based semantic segmentation with backend services and web-based geospatial visualisation tools, demonstrating a full production-style pipeline from model training to deployment and user interaction.
+## Features
 
----
-
-## Highlights
-
-- End-to-end ML pipeline (training → inference → visualisation)
-- U-Net–based semantic segmentation for snow detection
-- Production-style backend using FastAPI
-- Interactive geospatial analysis using ArcGIS JavaScript API
-
----
-
-## Key Features
-
-- Upload satellite imagery for automated snow detection  
-- Deep learning inference using a trained U-Net model  
-- Modular pipeline: preprocessing → inference → postprocessing  
-- Web interface for real-time prediction and visualisation  
-- Geospatial analysis tools:
-  - Terrain analysis  
-  - Time-based exploration (time slider)  
-  - Swipe comparison  
-  - Snow change analysis  
-
----
-
-## System Architecture
-
-The system is structured into three main components:
-
-* **Application (`upload_detection/`)**
-
-  * Backend API for model inference and data processing
-  * Frontend interface for user interaction
-
-* **Model Training (`notebooks/`)**
-
-  * Model training and experimentation workflow
-  * Includes preprocessing, training, and evaluation
-
-* **Visualisation Tools (`gis_app/`)**
-
-  * Standalone web applications for spatial and temporal analysis
-
----
+* Snow detection from satellite imagery
+* U-Net semantic segmentation model
+* FastAPI inference backend
+* Snow change analysis
+* Terrain analysis
+* Time slider visualisation
+* Swipe comparison
+* NDSI raster analysis
 
 ## Tech Stack
 
-* **Backend:** Python
 * **Machine Learning:** PyTorch, OpenCV
+* **Backend:** Python, FastAPI
 * **Frontend:** HTML, CSS, JavaScript
 * **Geospatial:** ArcGIS JavaScript API
-* **Data Processing:** Custom Python pipelines
-
----
+* **Data:** GeoJSON, GeoTIFF / NDSI raster data
 
 ## Project Structure
 
-```
+```text
 Snow-Intelligence-System/
-├── upload_detection/   # Main application (backend + frontend)
-├── notebooks/          # Model training and experiments
-├── gis_app/            # Geospatial visualisation tools
+├── backend/
+│   ├── data/               # GeoJSON and NDSI raster datasets
+│   ├── model/              # U-Net model and trained weights
+│   ├── output/analysis/    # Snow change analysis outputs
+│   ├── tests/              # Backend tests
+│   ├── utils/              # Processing and inference modules
+│   └── main.py             # FastAPI application
+│
+├── frontend/
+│   ├── upload_detection/   # Snow detection interface
+│   ├── snow_change_analysis/
+│   └── gis_app/            # GIS visualisation tools
+│
+└── notebooks/
+    └── snow_model_training.ipynb
 ```
 
----
+## Installation
 
-## Model Training
-
-The training pipeline is documented in:
-
-
-* `notebooks/snow_model_training.ipynb`
-
-
-This includes:
-
-* Data preprocessing
-* Model training (U-Net)
-* Evaluation and validation
-
----
-
-## Model Performance
-
-The trained model achieves strong performance on the test dataset:
-
-- **mIoU:** ~0.96  
-- **Snow IoU:** ~0.956  
-- **Non-snow IoU:** ~0.965  
-- **Overall Accuracy:** ~0.98  
-
-Training converges to a final loss of ~0.004, indicating stable optimisation.
-
----
-
-## Setup
-
-Start the FastAPI server:
+Install the required Python dependencies:
 
 ```bash
 pip install -r backend/requirements.txt
@@ -111,55 +54,88 @@ pip install -r backend/requirements.txt
 
 ## Run Locally
 
+The backend and frontend should be run in **two separate terminals**.
+
+### Terminal 1 — Backend
+
 ```bash
+cd backend
 python -m uvicorn main:app --reload
 ```
 
-Access API docs:  
+The FastAPI backend will run at:
+
+```text
+http://localhost:8000
+```
+
+API documentation:
+
+```text
 http://localhost:8000/docs
+```
 
+### Terminal 2 — Frontend
 
-## Web Applications
+From the project root:
 
-The system includes geospatial web tools for analysing snow coverage outputs.
+```bash
+cd frontend
+python -m http.server 5500
+```
 
-### Capabilities
+The frontend will be available at:
 
-- **Model Integration (`upload_detection`)**  
-  Web-based interface for uploading satellite imagery and performing real-time snow segmentation using the deployed U-Net model.
+```text
+http://localhost:5500
+```
 
-- **Terrain Analysis  (`gis_app`)**  
-  Visualisation tools for examining snow distribution in relation to terrain features.
+Individual applications can then be accessed through:
 
-- **Interactive Map Exploration**  
-  Map-based interface for exploring spatial patterns in snow coverage data.
+```text
+/upload_detection/
+/snow_change_analysis/
+/gis_app/
+```
 
-## Development Status
+## Model Training
 
-These applications are functional at the prototype level and demonstrate core system capabilities, including model inference integration and geospatial visualisation.
+The snow segmentation model training workflow is available in:
 
-### Ongoing Work
+```text
+notebooks/snow_model_training.ipynb
+```
 
-- Enhancing UI/UX for improved usability  
-- Optimising performance for larger geospatial datasets  
-- Expanding analytical features (e.g. temporal comparison, change detection)  
-- Improving integration between standalone tools and the main application
+The trained model is stored at:
 
-### Use Cases
+```text
+backend/model/snow.pth
+```
 
-- Snow coverage monitoring  
-- Environmental and climate analysis  
-- Hydrological modelling support  
+## Model Performance
 
-## Notes
+The trained snow segmentation model achieves approximately:
 
-- API served via FastAPI + Uvicorn  
-- Interactive documentation available at `/docs`  
-- Frontend provided via static web interface  
+* **mIoU:** 0.96
+* **Snow IoU:** 0.956
+* **Non-snow IoU:** 0.965
+* **Overall Accuracy:** 0.98
 
-## Project Status
+## Testing
 
-The system is functionally complete for end-to-end snow detection and analysis.
+Backend tests are located in:
 
-Current work focuses on improving usability, scalability, and expanding analytical capabilities.
-"# Snow-Intelligence-System" 
+```text
+backend/tests/
+```
+
+Run the test suite from the backend directory:
+
+```bash
+cd backend
+pytest
+```
+
+## Status
+
+The system is a functional prototype demonstrating an end-to-end workflow from snow segmentation and backend inference to geospatial visualisation and snow change analysis.
